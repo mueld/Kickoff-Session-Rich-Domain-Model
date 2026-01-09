@@ -1,0 +1,1 @@
+# Kickoff-Session-Rich-Domain-Model
