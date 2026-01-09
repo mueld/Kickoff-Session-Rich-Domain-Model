@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Noser-Fitness-Application/Noser-Fitness-Application.csproj" />
+  <Project Path="Noser-Fitness.Domain/Noser-Fitness.Domain.csproj" />
+  <Project Path="Noser-Fitness.Infrastructure/Noser-Fitness.Infrastructure.csproj" />
+  <Project Path="Noser-Fitness/Noser-Fitness.csproj" />
+</Solution>
