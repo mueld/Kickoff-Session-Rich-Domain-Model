@@ -11,4 +11,4 @@ public record CreateCourseCommand(
     string? Location,
     int? MaximumNumberOfAttendees,
     int? InvitationsValidBeforeInHours
-) : IRequest;
+) : ICommand;

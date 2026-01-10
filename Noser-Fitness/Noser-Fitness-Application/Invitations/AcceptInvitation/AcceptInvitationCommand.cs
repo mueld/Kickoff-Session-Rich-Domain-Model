@@ -2,4 +2,4 @@
 
 namespace Noser_Fitness_Application.Invitations.AcceptInvitation;
 
-public record AcceptInvitationCommand(Guid InvitationId) : IRequest;
+public record AcceptInvitationCommand(Guid InvitationId) : ICommand;

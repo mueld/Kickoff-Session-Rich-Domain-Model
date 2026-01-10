@@ -7,7 +7,7 @@ using Noser_Fitness.Domain.Events;
 namespace Noser_Fitness_Application.Courses.CreateCourse;
 
 internal class CreateCourseCommandHandler(INoserFitnessDbContext dbContext, IMediator mediator)
-    : IRequestHandler<CreateCourseCommand>
+    : ICommandHandler<CreateCourseCommand>
 {
     private readonly INoserFitnessDbContext _dbContext = dbContext;
     private readonly IMediator _mediator = mediator;

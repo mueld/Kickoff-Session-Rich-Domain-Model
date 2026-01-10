@@ -4,6 +4,6 @@ public enum InvitationState
 {
     Created,
     Send,
-    Acceppted,
+    Accepted,
     Expired,
 }
