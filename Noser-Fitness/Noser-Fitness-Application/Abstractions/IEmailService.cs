@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Noser_Fitness.Domain;
 
 namespace Noser_Fitness_Application.Abstractions;
 
 internal interface IEmailService
 {
-    Task SendEmail(string email, string Text);
+    Task SendEmail(Member member, Course course);
 }
