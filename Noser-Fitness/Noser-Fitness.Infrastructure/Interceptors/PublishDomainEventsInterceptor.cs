@@ -1,11 +1,12 @@
 ﻿using Mediator;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Noser_Fitness.Domain;
 
 namespace Noser_Fitness.Infrastructure.Interceptors;
 
-internal class PublishDomainEventsInterceptor(ISender mediator) : SaveChangesInterceptor
+public class PublishDomainEventsInterceptor(ISender mediator) : SaveChangesInterceptor
 {
     private readonly ISender _mediator = mediator;
 
