@@ -1,8 +1,31 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Noser_Fitness.Domain.Abstractions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+string? connectionString = builder.Configuration.GetConnectionString("IndustrialScaleNetDb");
+ArgumentNullException.ThrowIfNull(connectionString, nameof(connectionString));
+builder.Services.AddSingleton<ConvertDomainEventToOutboxMessageInterceptor>();
+builder.Services.AddDbContext<NoserFitnessDbContext>(
+    (sp, optionsBuilder) =>
+    {
+        var interceptor = sp.GetRequiredService<ConvertDomainEventToOutboxMessageInterceptor>();
+        optionsBuilder.AddInterceptors(interceptor);
+        optionsBuilder.UseNpgsql(
+            connectionString,
+            npgsqlOptions => npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Default)
+        );
+    }
+);
+
+services.AddScoped<INoserFitnessDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
+
+return services;
 
 var app = builder.Build();
 
@@ -16,22 +39,34 @@ app.UseHttpsRedirection();
 
 var summaries = new[]
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+    "Freezing",
+    "Bracing",
+    "Chilly",
+    "Cool",
+    "Mild",
+    "Warm",
+    "Balmy",
+    "Hot",
+    "Sweltering",
+    "Scorching",
 };
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+app.MapGet(
+        "/weatherforecast",
+        () =>
+        {
+            var forecast = Enumerable
+                .Range(1, 5)
+                .Select(index => new WeatherForecast(
+                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                    Random.Shared.Next(-20, 55),
+                    summaries[Random.Shared.Next(summaries.Length)]
+                ))
+                .ToArray();
+            return forecast;
+        }
+    )
+    .WithName("GetWeatherForecast");
 
 app.Run();
 
