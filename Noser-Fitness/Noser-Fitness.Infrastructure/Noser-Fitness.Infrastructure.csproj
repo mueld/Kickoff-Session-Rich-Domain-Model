@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Noser-Fitness-Application\Noser-Fitness-Application.csproj" />
     <ProjectReference Include="..\Noser-Fitness.Domain\Noser-Fitness.Domain.csproj" />
   </ItemGroup>
 

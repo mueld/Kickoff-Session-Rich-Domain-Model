@@ -2,7 +2,7 @@
 
 namespace Noser_Fitness_Application.Abstractions;
 
-internal interface IEmailService
+public interface IEmailService
 {
     Task SendEmail(Member member, Course course);
 }

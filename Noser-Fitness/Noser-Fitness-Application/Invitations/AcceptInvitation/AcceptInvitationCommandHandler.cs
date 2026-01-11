@@ -6,7 +6,7 @@ using Noser_Fitness.Domain.Events;
 
 namespace Noser_Fitness_Application.Invitations.AcceptInvitation;
 
-internal class AcceptInvitationCommandHandler(INoserFitnessDbContext dbContext, ISender mediator)
+public class AcceptInvitationCommandHandler(INoserFitnessDbContext dbContext, ISender mediator)
     : ICommandHandler<AcceptInvitationCommand>
 {
     private readonly INoserFitnessDbContext _dbContext = dbContext;

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Noser_Fitness_Application.Abstractions;
 using Noser_Fitness.Domain.Abstractions;
 using Noser_Fitness.Infrastructure.Interceptors;
 
@@ -9,9 +10,15 @@ namespace Noser_Fitness.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        string? connectionString = configuration.GetConnectionString("IndustrialScaleNetDb");
+        services.AddDatabase(configuration).AddServices();
+        return services;
+    }
+
+    private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
+    {
+        string? connectionString = configuration.GetConnectionString("Database");
         ArgumentNullException.ThrowIfNull(connectionString, nameof(connectionString));
         services.AddScoped<PublishDomainEventsInterceptor>();
         services.AddDbContext<NoserFitnessDbContext>(
@@ -26,5 +33,12 @@ public static class DependencyInjection
             }
         );
         services.AddScoped<INoserFitnessDbContext>(sp => sp.GetRequiredService<NoserFitnessDbContext>());
+        return services;
+    }
+
+    private static IServiceCollection AddServices(this IServiceCollection services)
+    {
+        services.AddScoped<IEmailService, EmailService>();
+        return services;
     }
 }

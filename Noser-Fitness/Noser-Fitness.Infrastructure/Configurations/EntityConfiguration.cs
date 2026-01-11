@@ -4,7 +4,7 @@ using Noser_Fitness.Domain;
 
 namespace Noser_Fitness.Infrastructure.Configurations;
 
-internal class EntityConfiguration : IEntityTypeConfiguration<Entity>
+internal class EntityConfiguration<TEntity> where TEntity is Entity : IEntityTypeConfiguration<Entity>
 {
     public void Configure(EntityTypeBuilder<Entity> builder)
     {

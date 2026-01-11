@@ -7,11 +7,8 @@ using Noser_Fitness.Domain.Events;
 
 namespace Noser_Fitness_Application.Invitations.SendInvitation;
 
-internal class SendInviationCommandHandler(
-    INoserFitnessDbContext dbContext,
-    ISender mediator,
-    IEmailService emailService
-) : ICommandHandler<SendInvitationCommand>
+public class SendInviationCommandHandler(INoserFitnessDbContext dbContext, ISender mediator, IEmailService emailService)
+    : ICommandHandler<SendInvitationCommand>
 {
     private readonly INoserFitnessDbContext _dbContext = dbContext;
     private readonly ISender _mediator = mediator;
