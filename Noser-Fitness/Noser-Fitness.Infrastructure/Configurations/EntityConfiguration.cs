@@ -4,11 +4,13 @@ using Noser_Fitness.Domain;
 
 namespace Noser_Fitness.Infrastructure.Configurations;
 
-internal class EntityConfiguration<TEntity> where TEntity is Entity : IEntityTypeConfiguration<Entity>
+public abstract class EntityConfiguration<TEntity> : IEntityTypeConfiguration<TEntity>
+    where TEntity : Entity
 {
-    public void Configure(EntityTypeBuilder<Entity> builder)
+    public virtual void Configure(EntityTypeBuilder<TEntity> builder)
     {
         builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id).ValueGeneratedOnAdd();
         builder.Ignore(nameof(Entity.DomainEvents));
     }
 }
