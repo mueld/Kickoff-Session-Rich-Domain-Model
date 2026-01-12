@@ -1,8 +1,7 @@
 ﻿namespace Noser_Fitness.Domain;
 
-public class Attendee
+public class Attendee : Entity
 {
-    public Guid Id { get; set; }
-    public Guid CourseId { get; set; }
-    public Guid MemberId { get; set; }
+    public Guid CourseId { get; init; }
+    public Guid MemberId { get; init; }
 }

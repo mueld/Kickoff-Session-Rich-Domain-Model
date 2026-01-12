@@ -1,9 +1,8 @@
 ﻿namespace Noser_Fitness.Domain;
 
-public class Member
+public class Member : Entity
 {
-    public Guid Id { get; set; }
-    public string Firstname { get; set; } = string.Empty;
-    public string Lastname { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
+    public string Firstname { get; init; } = string.Empty;
+    public string Lastname { get; init; } = string.Empty;
+    public string Email { get; init; } = string.Empty;
 }

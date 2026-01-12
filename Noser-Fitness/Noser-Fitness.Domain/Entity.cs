@@ -4,7 +4,7 @@ namespace Noser_Fitness.Domain;
 
 public abstract class Entity
 {
-    public Guid Id { get; init; } = Guid.NewGuid();
+    public Guid Id { get; init; } = Guid.CreateVersion7();
     private readonly List<IDomainEvent> _domainEvents = [];
 
     public List<IDomainEvent> DomainEvents => [.. _domainEvents];
