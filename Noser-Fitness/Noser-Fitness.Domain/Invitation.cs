@@ -31,8 +31,8 @@ public class Invitation : Entity
         State = State.Sent();
     }
 
-    public static Invitation Create(Guid MemberId, Guid CourseId)
+    public static Invitation Create(Guid memberId, Guid courseId)
     {
-        return new Invitation(MemberId, CourseId);
+        return new Invitation(memberId, courseId);
     }
 }

@@ -12,7 +12,7 @@ public class Course : Aggregate
     public string Name { get; init; } = string.Empty;
     public string? Location { get; set; }
 
-    public CourseType CourseType { get; set; } = CourseType.Standard;
+    public CourseType CourseType { get; init; } = CourseType.Standard;
     public DateTime ScheduledAtUtc { get; init; }
     public DateTime CreatedAtUtc { get; init; } = DateTime.UtcNow;
 
@@ -60,7 +60,6 @@ public class Course : Aggregate
         _attendees.Add(attendee);
 
         Raise(new InvitationAcceptedDomainEvent(invitation.CourseId, invitation.MemberId));
-
         return attendee;
     }
 
@@ -84,7 +83,7 @@ public class Course : Aggregate
 
         var course = new Course
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             Name = name,
             CreatedByMemberId = memberId,
             Location = location,
