@@ -10,9 +10,9 @@ internal class NoserFitnessDbContext(DbContextOptions<NoserFitnessDbContext> opt
 {
     public DbSet<Member> Members { get; set; }
 
-    public DbSet<Attendee> Attendees { get; set; }
+    //public DbSet<Attendee> Attendees { get; set; }
 
-    public DbSet<Invitation> Invitations { get; set; }
+    //public DbSet<Invitation> Invitations { get; set; }
 
     public DbSet<Course> Courses { get; set; }
 

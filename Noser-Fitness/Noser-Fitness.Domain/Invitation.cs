@@ -8,32 +8,27 @@ public class Invitation : Entity
     {
         MemberId = memberId;
         CourseId = courseId;
-        State = InvitationState.Created;
-        ModifiedAtUtc = DateTime.UtcNow;
+        State = InvitationStatus.Created();
     }
 
     public Guid MemberId { get; init; }
     public Guid CourseId { get; init; }
 
-    public InvitationState State { get; private set; }
-    public DateTime ModifiedAtUtc { get; private set; }
+    public InvitationStatus State { get; private set; }
 
     public void IsExpired()
     {
-        State = InvitationState.Expired;
-        ModifiedAtUtc = DateTime.UtcNow;
+        State = State.Expired();
     }
 
     public void IsAccepted()
     {
-        State = InvitationState.Accepted;
-        ModifiedAtUtc = DateTime.UtcNow;
+        State = State.Accepted();
     }
 
     public void IsSend()
     {
-        State = InvitationState.Send;
-        ModifiedAtUtc = DateTime.UtcNow;
+        State = State.Sent();
     }
 
     public static Invitation Create(Guid MemberId, Guid CourseId)

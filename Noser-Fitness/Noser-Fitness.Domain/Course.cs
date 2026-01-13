@@ -38,13 +38,17 @@ public class Course : Aggregate
         return invitation;
     }
 
-    public Attendee? AcceptInvitation(Invitation invitation)
+    public Attendee? AcceptInvitation(Guid invitationId)
     {
+        var invitation = _invitations.SingleOrDefault(x => x.Id == invitationId);
+        if (invitation is null)
+            return null;
+
         var isExpired =
             InvitationsValidBeforeInHours.HasValue
             && DateTime.UtcNow - ScheduledAtUtc > TimeSpan.FromHours(InvitationsValidBeforeInHours.Value);
 
-        if (MaxAttendees >= _attendees.Count || isExpired)
+        if (_attendees.Count >= MaxAttendees || isExpired)
         {
             invitation.IsExpired();
             return null;

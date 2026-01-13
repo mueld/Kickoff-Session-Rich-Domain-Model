@@ -10,35 +10,38 @@ namespace Noser_Fitness.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    extension(IServiceCollection services)
     {
-        services.AddDatabase(configuration).AddServices();
-        return services;
-    }
+        public IServiceCollection AddInfrastructure(IConfiguration configuration)
+        {
+            services.AddDatabase(configuration).AddServices();
+            return services;
+        }
 
-    private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
-    {
-        string? connectionString = configuration.GetConnectionString("Database");
-        ArgumentNullException.ThrowIfNull(connectionString, nameof(connectionString));
-        services.AddScoped<PublishDomainEventsInterceptor>();
-        services.AddDbContext<NoserFitnessDbContext>(
-            (sp, optionsBuilder) =>
-            {
-                var interceptor = sp.GetRequiredService<PublishDomainEventsInterceptor>();
-                optionsBuilder.AddInterceptors(interceptor);
-                optionsBuilder.UseNpgsql(
-                    connectionString,
-                    npgsqlOptions => npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName)
-                );
-            }
-        );
-        services.AddScoped<INoserFitnessDbContext>(sp => sp.GetRequiredService<NoserFitnessDbContext>());
-        return services;
-    }
+        private IServiceCollection AddDatabase(IConfiguration configuration)
+        {
+            string? connectionString = configuration.GetConnectionString("Database");
+            ArgumentNullException.ThrowIfNull(connectionString, nameof(connectionString));
+            services.AddScoped<PublishDomainEventsInterceptor>();
+            services.AddDbContext<NoserFitnessDbContext>(
+                (sp, optionsBuilder) =>
+                {
+                    var interceptor = sp.GetRequiredService<PublishDomainEventsInterceptor>();
+                    optionsBuilder.AddInterceptors(interceptor);
+                    optionsBuilder.UseNpgsql(
+                        connectionString,
+                        npgsqlOptions => npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName)
+                    );
+                }
+            );
+            services.AddScoped<INoserFitnessDbContext>(sp => sp.GetRequiredService<NoserFitnessDbContext>());
+            return services;
+        }
 
-    private static IServiceCollection AddServices(this IServiceCollection services)
-    {
-        services.AddScoped<IEmailService, EmailService>();
-        return services;
+        private IServiceCollection AddServices()
+        {
+            services.AddScoped<IEmailService, EmailService>();
+            return services;
+        }
     }
 }

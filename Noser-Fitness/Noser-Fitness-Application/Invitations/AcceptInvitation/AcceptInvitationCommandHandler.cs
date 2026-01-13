@@ -1,8 +1,6 @@
 ﻿using Mediator;
 using Microsoft.EntityFrameworkCore;
-using Noser_Fitness.Domain;
 using Noser_Fitness.Domain.Abstractions;
-using Noser_Fitness.Domain.Events;
 
 namespace Noser_Fitness_Application.Invitations.AcceptInvitation;
 
@@ -12,15 +10,11 @@ public class AcceptInvitationCommandHandler(INoserFitnessDbContext dbContext) : 
 
     public async ValueTask<Unit> Handle(AcceptInvitationCommand command, CancellationToken cancellationToken)
     {
-        var invitation =
-            await _dbContext.Invitations.SingleAsync(x => x.Id == command.InvitationId)
-            ?? throw new InvalidOperationException("Invitation not found");
-
         var course =
-            await _dbContext.Courses.SingleAsync(x => x.Id == invitation.CourseId)
+            await _dbContext.Courses.SingleAsync(x => x.Id == command.CourseId)
             ?? throw new InvalidOperationException("Course not found");
 
-        course.AcceptInvitation(invitation);
+        course.AcceptInvitation(command.InvitationId);
         await _dbContext.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }
