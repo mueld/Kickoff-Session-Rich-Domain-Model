@@ -83,7 +83,6 @@ public class Course : Aggregate
 
         var course = new Course
         {
-            Id = Guid.CreateVersion7(),
             Name = name,
             CreatedByMemberId = memberId,
             Location = location,

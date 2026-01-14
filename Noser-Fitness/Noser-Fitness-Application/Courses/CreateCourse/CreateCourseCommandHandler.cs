@@ -26,7 +26,6 @@ public class CreateCourseCommandHandler(INoserFitnessDbContext dbContext) : ICom
         );
 
         _dbContext.Courses.Add(course);
-        await _dbContext.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }
 }

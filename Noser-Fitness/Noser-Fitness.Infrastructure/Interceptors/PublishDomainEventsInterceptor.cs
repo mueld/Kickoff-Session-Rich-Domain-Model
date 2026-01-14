@@ -5,20 +5,20 @@ using Noser_Fitness.Domain;
 
 namespace Noser_Fitness.Infrastructure.Interceptors;
 
-public class PublishDomainEventsInterceptor(ISender mediator) : SaveChangesInterceptor
+public class PublishDomainEventsInterceptor(IMediator mediator) : SaveChangesInterceptor
 {
-    private readonly ISender _mediator = mediator;
+    private readonly IMediator _mediator = mediator;
 
-    public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(
-        DbContextEventData eventData,
-        InterceptionResult<int> result,
-        CancellationToken cancellationToken = default
+    public override async ValueTask<int> SavedChangesAsync(
+        SaveChangesCompletedEventData eventData,
+        int result,
+        CancellationToken cancellationToken = new CancellationToken()
     )
     {
         DbContext? dbContext = eventData.Context;
         if (dbContext == null)
         {
-            return await base.SavingChangesAsync(eventData, result, cancellationToken);
+            return await base.SavedChangesAsync(eventData, result, cancellationToken);
         }
 
         var domainEvents = dbContext
@@ -34,9 +34,9 @@ public class PublishDomainEventsInterceptor(ISender mediator) : SaveChangesInter
 
         foreach (var domainEvent in domainEvents)
         {
-            await _mediator.Send(domainEvent, cancellationToken);
+            await _mediator.Publish(domainEvent, cancellationToken);
         }
-
-        return await base.SavingChangesAsync(eventData, result, cancellationToken);
+        var savedChangesResult = await base.SavedChangesAsync(eventData, result, cancellationToken);
+        return savedChangesResult;
     }
 }

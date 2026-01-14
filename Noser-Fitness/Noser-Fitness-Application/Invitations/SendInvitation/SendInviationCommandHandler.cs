@@ -23,7 +23,6 @@ public class SendInviationCommandHandler(INoserFitnessDbContext dbContext, IEmai
 
         var invitation = course.SendInvitation(command.MemberId);
         await _emailService.SendEmail(member, course);
-        await _dbContext.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;
     }

@@ -1,5 +1,7 @@
 using Microsoft.OpenApi;
+using Noser_Fitness_Application.Abstractions.Behaviors;
 using Noser_Fitness.Courses;
+using Noser_Fitness.Domain.Events;
 using Noser_Fitness.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +23,12 @@ builder.Services.AddMediator(
     (options) =>
     {
         options.ServiceLifetime = ServiceLifetime.Scoped;
-        options.Assemblies = [typeof(Noser_Fitness_Application.DependencyInjection)];
+        options.Assemblies =
+        [
+            typeof(Noser_Fitness_Application.DependencyInjection).Assembly,
+            typeof(CourseCreatedDomainEvent).Assembly,
+        ];
+        options.PipelineBehaviors = [typeof(TransactionBehavior<,>)];
     }
 );
 

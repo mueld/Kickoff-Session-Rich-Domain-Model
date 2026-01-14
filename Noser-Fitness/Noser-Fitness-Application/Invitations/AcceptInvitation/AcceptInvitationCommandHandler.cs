@@ -15,7 +15,6 @@ public class AcceptInvitationCommandHandler(INoserFitnessDbContext dbContext) : 
             ?? throw new InvalidOperationException("Course not found");
 
         course.AcceptInvitation(command.InvitationId);
-        await _dbContext.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }
 }

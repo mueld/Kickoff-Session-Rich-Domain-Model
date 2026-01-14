@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Mediator;
+using Microsoft.EntityFrameworkCore;
 using Noser_Fitness.Domain;
 using Noser_Fitness.Domain.Abstractions;
 
@@ -9,10 +10,6 @@ internal class NoserFitnessDbContext(DbContextOptions<NoserFitnessDbContext> opt
         INoserFitnessDbContext
 {
     public DbSet<Member> Members { get; set; }
-
-    //public DbSet<Attendee> Attendees { get; set; }
-
-    //public DbSet<Invitation> Invitations { get; set; }
 
     public DbSet<Course> Courses { get; set; }
 
