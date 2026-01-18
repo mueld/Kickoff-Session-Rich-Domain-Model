@@ -49,7 +49,7 @@ public class CreateCourseCommandHandler(INoserFitnessDbContext dbContext, IMedia
         _dbContext.Courses.Add(course);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        var domainEvent = new CourseCraetedDomainEvent(course.Id);
+        var domainEvent = new CourseCreatedDomainEvent(course.Id);
         await _mediator.Send(domainEvent);
 
         return Unit.Value;
